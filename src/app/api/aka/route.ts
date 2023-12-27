@@ -13,6 +13,8 @@ export async function GET(request: NextRequest) {
     await timeIteration.push(await runningIteration(256, 1));
     await timeIteration.push(await runningIteration(518, 1));
     await timeIteration.push(await runningIteration(1024, 1));
+    await timeIteration.push(await runningIteration(2048, 1));
+    await timeIteration.push(await runningIteration(4096, 1));
 
     return Response.json({ data: timeIteration });
   } catch (error) {

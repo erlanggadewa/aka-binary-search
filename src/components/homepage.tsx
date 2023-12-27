@@ -31,7 +31,7 @@ function HomePage() {
   const [time, setTime] = useState<any[]>();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/aka")
+    fetch("/api/aka")
       .then((res) => res.json())
       .then((res) => {
         const { data } = res;
@@ -44,8 +44,6 @@ function HomePage() {
         setTime(updatedTime);
       });
   }, []);
-  console.log("🚀 ~ file: homepage.tsx:47 ~ HomePage ~ time:", time);
-  console.log("🚀 ~ file: homepage.tsx:47 ~ HomePage ~ labels:", labels);
 
   ChartJS.register(
     CategoryScale,
