@@ -4,17 +4,13 @@ export async function GET(request: NextRequest) {
   try {
     let timeIteration = new Array();
 
-    await timeIteration.push(await runningIteration(2, 1));
-    await timeIteration.push(await runningIteration(4, 1));
-    await timeIteration.push(await runningIteration(16, 1));
-    await timeIteration.push(await runningIteration(32, 1));
-    await timeIteration.push(await runningIteration(64, 1));
-    await timeIteration.push(await runningIteration(128, 1));
-    await timeIteration.push(await runningIteration(256, 1));
-    await timeIteration.push(await runningIteration(518, 1));
-    await timeIteration.push(await runningIteration(1024, 1));
-    await timeIteration.push(await runningIteration(2048, 1));
-    await timeIteration.push(await runningIteration(4096, 1));
+    await runningIteration(1, 1);
+    await timeIteration.push(await runningIteration(4, 0));
+    await timeIteration.push(await runningIteration(64, 0));
+    await timeIteration.push(await runningIteration(1024, 0));
+    await timeIteration.push(await runningIteration(163884, 0));
+    await timeIteration.push(await runningIteration(2622144, 0));
+    await timeIteration.push(await runningIteration(41954304, 0));
 
     return Response.json({ data: timeIteration });
   } catch (error) {
@@ -24,7 +20,7 @@ export async function GET(request: NextRequest) {
 
 async function runningIteration(total: number, target: any) {
   const arr = [];
-  for (let index = 1; index <= total; index++) {
+  for (let index = 0; index < total; index++) {
     arr.push(index);
   }
 
