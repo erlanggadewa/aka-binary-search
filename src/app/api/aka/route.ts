@@ -1,23 +1,31 @@
 import { NextRequest } from "next/server";
 
-const arr = Array.from({ length: 16384 }, (_, index) => index);
+const arr = Array.from({ length: 10000 }, (_, index) => index);
 
 export async function GET(request: NextRequest) {
   try {
     const iterationPromises = [
-      runningIteration(21000, 0),
-      runningIteration(19000, 0),
-      runningIteration(16000, 0),
-      runningIteration(12000, 0),
+      runningIteration(10000, 0),
+      runningIteration(9000, 0),
+      runningIteration(8000, 0),
       runningIteration(7000, 0),
+      runningIteration(6000, 0),
+      runningIteration(5000, 0),
+      runningIteration(4000, 0),
+      runningIteration(3000, 0),
+      runningIteration(2000, 0),
       runningIteration(1000, 0),
     ];
     const recursivePromises = [
-      runningRecursive(21000, 0),
-      runningRecursive(19000, 0),
-      runningRecursive(16000, 0),
-      runningRecursive(12000, 0),
+      runningRecursive(10000, 0),
+      runningRecursive(9000, 0),
+      runningRecursive(8000, 0),
       runningRecursive(7000, 0),
+      runningRecursive(6000, 0),
+      runningRecursive(5000, 0),
+      runningRecursive(4000, 0),
+      runningRecursive(3000, 0),
+      runningRecursive(2000, 0),
       runningRecursive(1000, 0),
     ];
     const iterationResult = await Promise.all(iterationPromises);
