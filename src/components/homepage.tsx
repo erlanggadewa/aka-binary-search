@@ -2,6 +2,7 @@
 import {
   CategoryScale,
   Chart as ChartJS,
+  ChartOptions,
   Legend,
   LineElement,
   LinearScale,
@@ -13,22 +14,9 @@ import { useEffect, useState } from "react";
 // ESM
 import { Line } from "react-chartjs-2";
 
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/aka");
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
-
 function HomePage() {
-  const [labels, setLabels] = useState<any[]>();
-  const [time, setTime] = useState<any[]>();
+  const [labels, setLabels] = useState<any>();
+  const [time, setTime] = useState<any>();
 
   useEffect(() => {
     fetch("/api/aka")
@@ -36,8 +24,12 @@ function HomePage() {
       .then((res) => {
         const { data } = res;
         // Extracting 'totalData' from 'data' and creating new arrays for labels and time
-        const updatedLabels = data.map((x: any) => x.totalData);
-        const updatedTime = data.map((x: any) => x.time);
+        const updatedLabels = data.iteration.map((x: any) => x.totalData);
+
+        const updatedTime = {
+          iteration: data.iteration.map((x: any) => x.time),
+          recursive: data.recursive.map((x: any) => x.time),
+        };
 
         // Updating the state once after all transformations
         setLabels(updatedLabels);
@@ -55,45 +47,59 @@ function HomePage() {
     Legend
   );
 
-  const options = {
+  const options: ChartOptions = {
     responsive: true,
+    scales: {
+      x: {
+        display: true,
+        weight: 10,
+        title: {
+          display: true,
+          text: "Size Input (n)",
+        },
+      },
+      y: {
+        display: true,
+      },
+    },
     plugins: {
       legend: {
         position: "top" as const,
       },
       title: {
         display: true,
-        text: "Chart.js Line Chart",
+        text: "Binary Search",
       },
     },
   };
-  // const labels = dataFetch.map((x: any) => x.totalData);
+
   const data = {
     labels: labels,
     datasets: [
-      // {
-      //   label: "Dataset 1",
-      //   data: labels.map(() => faker.number.int({ min: -1000, max: 1000 })),
-      //   borderColor: "rgb(255, 99, 132)",
-      //   backgroundColor: "rgba(255, 99, 132, 0.5)",
-      //   fill: false,
-      //   tension: 0.4,
-      // },
+      {
+        label: "Recursive Binary Search",
+        data: time?.recursive,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        fill: false,
+        tension: 0.4,
+      },
       {
         label: "Iteration Binary Search",
-        data: time,
+        data: time?.iteration,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
         fill: false,
         tension: 0.4,
+        cubicInterpolationMode: "monotone",
       },
     ],
   };
-  // const posts = await fetch("http://localhost:3000/").then((res) => res.json());
-  // console.log("🚀 ~ file: homepage.tsx:3 ~ HomePage ~ posts:", posts);
+
   return (
-    <div className="h-96">
-      <Line options={options} data={data} className="h-20" />
+    <div className="w-full h-full p-2">
+      {/* @ts-ignore */}
+      <Line options={options} data={data} />
     </div>
   );
 }

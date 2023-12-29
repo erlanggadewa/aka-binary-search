@@ -1,37 +1,55 @@
 import { NextRequest } from "next/server";
 
+const arr = Array.from({ length: 16384 }, (_, index) => index);
+
 export async function GET(request: NextRequest) {
   try {
-    let timeIteration = new Array();
-
-    await runningIteration(1, 1);
-    await timeIteration.push(await runningIteration(4, 0));
-    await timeIteration.push(await runningIteration(64, 0));
-    await timeIteration.push(await runningIteration(1024, 0));
-    await timeIteration.push(await runningIteration(163884, 0));
-    await timeIteration.push(await runningIteration(2622144, 0));
-    await timeIteration.push(await runningIteration(41954304, 0));
-
-    return Response.json({ data: timeIteration });
+    const iterationPromises = [
+      runningIteration(11000, 0),
+      runningIteration(10000, 0),
+      runningIteration(8000, 0),
+      runningIteration(6000, 0),
+      runningIteration(1000, 0),
+    ];
+    const recursivePromises = [
+      runningRecursive(11000, 0),
+      runningRecursive(10000, 0),
+      runningRecursive(8000, 0),
+      runningRecursive(6000, 0),
+      runningRecursive(1000, 0),
+    ];
+    const iterationResult = await Promise.all(iterationPromises);
+    const recursiveResult = await Promise.all(recursivePromises);
+    iterationResult.reverse();
+    recursiveResult.reverse();
+    return Response.json({
+      data: {
+        iteration: [...iterationResult],
+        recursive: [...recursiveResult],
+      },
+    });
   } catch (error) {
     throw new Error();
   }
 }
 
-async function runningIteration(total: number, target: any) {
-  const arr = [];
-  for (let index = 0; index < total; index++) {
-    arr.push(index);
+async function runningIteration(total: any, target: any) {
+  const times = [];
+  const numberOfRuns = 50; // Number of times to run the search for better average time measurement
+
+  for (let i = 0; i < numberOfRuns; i++) {
+    const start = performance.now();
+    await binarySearchIteration(arr.slice(0, total), target);
+    const end = performance.now();
+    times.push(end - start);
   }
 
-  const start = performance.now();
-  const result = await binarySearch(arr, target);
-  const end = performance.now();
+  const averageTime = times.reduce((acc, time) => acc + time, 0) / numberOfRuns;
 
-  return { time: end - start, totalData: total };
+  return { time: averageTime, totalData: total };
 }
 
-async function binarySearch(arr: any[], target: any) {
+async function binarySearchIteration(arr: any[], target: any) {
   let left = 0;
   let right = arr.length - 1;
 
@@ -48,4 +66,41 @@ async function binarySearch(arr: any[], target: any) {
   }
 
   return -1; // elemen tidak ditemukan
+}
+
+function binarySearchRecursive(
+  arr: any[],
+  target: any,
+  start = 0,
+  end = arr.length - 1
+) {
+  if (start > end) {
+    return -1; // elemen tidak ditemukan
+  }
+
+  const mid = Math.floor((start + end) / 2);
+
+  if (arr[mid] === target) {
+    return mid; // elemen ditemukan di indeks mid
+  } else if (arr[mid] > target) {
+    return binarySearchRecursive(arr, target, start, mid - 1); // cari di setengah kiri
+  } else {
+    return binarySearchRecursive(arr, target, mid + 1, end); // cari di setengah kanan
+  }
+}
+
+async function runningRecursive(total: any, target: any) {
+  const times = [];
+  const numberOfRuns = 50; // Number of times to run the search for better average time measurement
+
+  for (let i = 0; i < numberOfRuns; i++) {
+    const start = performance.now();
+    await binarySearchRecursive(arr.slice(0, total), target);
+    const end = performance.now();
+    times.push(end - start);
+  }
+
+  const averageTime = times.reduce((acc, time) => acc + time, 0) / numberOfRuns;
+
+  return { time: averageTime, totalData: total };
 }
