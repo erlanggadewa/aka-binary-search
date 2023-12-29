@@ -83,6 +83,7 @@ function HomePage() {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         fill: false,
         tension: 0.4,
+        cubicInterpolationMode: "monotone",
       },
       {
         label: "Iteration Binary Search",
