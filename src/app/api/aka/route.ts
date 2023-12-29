@@ -1,10 +1,11 @@
 import { NextRequest } from "next/server";
 
-const arr = Array.from({ length: 20000 }, (_, index) => index);
+const arr = Array.from({ length: 32768 }, (_, index) => index);
 
 export async function GET(request: NextRequest) {
   try {
     const iterationPromises = [
+      runningIteration(32768, 0),
       runningIteration(16384, 0),
       runningIteration(8192, 0),
       runningIteration(4096, 0),
@@ -12,6 +13,7 @@ export async function GET(request: NextRequest) {
       runningIteration(1024, 0),
     ];
     const recursivePromises = [
+      runningRecursive(32768, 0),
       runningRecursive(16384, 0),
       runningRecursive(8192, 0),
       runningRecursive(4096, 0),
