@@ -5,20 +5,24 @@ const arr = Array.from({ length: 20000 }, (_, index) => index);
 export async function GET(request: NextRequest) {
   try {
     const iterationPromises = [
+      runningIteration(15000, 0),
+      runningIteration(12000, 0),
       runningIteration(10000, 0),
-      runningIteration(5000, 0),
+      runningIteration(8000, 0),
+      runningIteration(6000, 0),
+      runningIteration(4000, 0),
       runningIteration(2000, 0),
       runningIteration(1000, 0),
-      runningIteration(500, 0),
-      runningIteration(100, 0),
     ];
     const recursivePromises = [
+      runningRecursive(15000, 0),
+      runningRecursive(12000, 0),
       runningRecursive(10000, 0),
-      runningRecursive(5000, 0),
+      runningRecursive(8000, 0),
+      runningRecursive(6000, 0),
+      runningRecursive(4000, 0),
       runningRecursive(2000, 0),
       runningRecursive(1000, 0),
-      runningRecursive(500, 0),
-      runningRecursive(100, 0),
     ];
     const iterationResult = await Promise.all(iterationPromises);
     const recursiveResult = await Promise.all(recursivePromises);
