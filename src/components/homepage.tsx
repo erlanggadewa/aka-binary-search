@@ -27,8 +27,8 @@ function HomePage() {
         const updatedLabels = data.iteration.map((x: any) => x.totalData);
 
         const updatedTime = {
-          iteration: data.iteration.map((x: any) => x.time),
-          recursive: data.recursive.map((x: any) => x.time),
+          iteration: data.iteration.map((x: any) => x.time).reverse(),
+          recursive: data.recursive.map((x: any) => x.time).reverse(),
         };
 
         // Updating the state once after all transformations
