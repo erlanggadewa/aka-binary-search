@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       runningIteration(32768, 0),
       runningIteration(65536, 0),
       runningIteration(131072, 0),
-      runningIteration(262144, 0),
+      // runningIteration(262144, 0),
     ];
     const recursivePromises = [
       runningRecursive(1024, 0),
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       runningRecursive(32768, 0),
       runningRecursive(65536, 0),
       runningRecursive(131072, 0),
-      runningRecursive(262144, 0),
+      // runningRecursive(262144, 0),
     ];
     const iterationResult = await Promise.all(iterationPromises);
     const recursiveResult = await Promise.all(recursivePromises);
