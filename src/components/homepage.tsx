@@ -98,9 +98,11 @@ function HomePage() {
   };
 
   return (
-    <div className="w-full h-full p-2">
-      {/* @ts-ignore */}
-      <Line options={options} data={data} />
+    <div className="m-auto w-full h-full max-w-4xl px-10 py-5">
+      <div className="  ">
+        {/* @ts-ignore */}
+        <Line options={options} data={data} />
+      </div>
     </div>
   );
 }
