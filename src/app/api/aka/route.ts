@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       runningIteration(4096, 0),
       runningIteration(6192, 0),
       runningIteration(18384, 0),
-      // runningIteration(65536, 0),
+      runningIteration(25536, 0),
       // runningIteration(131072, 0),
       // runningIteration(277000, 0),
     ];
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       runningRecursive(4096, 0),
       runningRecursive(6192, 0),
       runningRecursive(18384, 0),
-      // runningRecursive(65536, 0),
+      runningRecursive(25536, 0),
       // runningRecursive(131072, 0),
       // runningRecursive(277000, 0),
     ];
