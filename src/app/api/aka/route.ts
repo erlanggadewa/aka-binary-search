@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       runningIteration(4096, 0),
       runningIteration(8192, 0),
       runningIteration(16384, 0),
-      // runningIteration(32768, 0),
+      runningIteration(32768, 0),
       // runningIteration(65536, 0),
       // runningIteration(131072, 0),
       // runningIteration(277000, 0),
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       runningRecursive(4096, 0),
       runningRecursive(8192, 0),
       runningRecursive(16384, 0),
-      // runningRecursive(32768, 0),
+      runningRecursive(32768, 0),
       // runningRecursive(65536, 0),
       // runningRecursive(131072, 0),
       // runningRecursive(277000, 0),
@@ -91,9 +91,11 @@ function binarySearchRecursive(
   if (arr[mid] === target) {
     return mid; // elemen ditemukan di indeks mid
   } else if (arr[mid] > target) {
-    return binarySearchRecursive(arr, target, start, mid - 1); // cari di setengah kiri
+    // cari di setengah kiri
+    return binarySearchRecursive(arr, target, start, mid - 1);
   } else {
-    return binarySearchRecursive(arr, target, mid + 1, end); // cari di setengah kanan
+    // cari di setengah kanan
+    return binarySearchRecursive(arr, target, mid + 1, end);
   }
 }
 
