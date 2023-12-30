@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-const arr = Array.from({ length: 300000 }, (_, index) => index);
+const arr = Array.from({ length: 600000 }, (_, index) => index);
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,26 +8,32 @@ export async function GET(request: NextRequest) {
       runningIteration(1024, 0),
       runningIteration(2048, 0),
       runningIteration(4096, 0),
-      runningIteration(6192, 0),
-      runningIteration(14384, 0),
-      runningIteration(18536, 0),
-      // runningIteration(131072, 0),
-      // runningIteration(277000, 0),
+      runningIteration(8192, 0),
+      runningIteration(16384, 0),
+      runningIteration(32768, 0),
+      runningIteration(65536, 0),
+      runningIteration(131072, 0),
+      runningIteration(262144, 0),
+      runningIteration(524288, 0),
     ];
     const recursivePromises = [
       runningRecursive(1024, 0),
       runningRecursive(2048, 0),
       runningRecursive(4096, 0),
-      runningRecursive(6192, 0),
-      runningRecursive(14384, 0),
-      runningRecursive(18536, 0),
-      // runningRecursive(131072, 0),
-      // runningRecursive(277000, 0),
+      runningRecursive(8192, 0),
+      runningRecursive(16384, 0),
+      runningRecursive(32768, 0),
+      runningRecursive(65536, 0),
+      runningRecursive(131072, 0),
+      runningRecursive(262144, 0),
+      runningRecursive(524288, 0),
     ];
     const iterationResult = await Promise.all(iterationPromises);
     const recursiveResult = await Promise.all(recursivePromises);
-    // iterationResult.reverse();
-    // recursiveResult.reverse();
+    // await runningIteration(524288, 0);
+    // await runningRecursive(524288, 0);
+    // iterationResult.pop();
+    // recursiveResult.pop();
     return Response.json({
       data: {
         iteration: [...iterationResult],
@@ -41,7 +47,7 @@ export async function GET(request: NextRequest) {
 
 async function runningIteration(total: any, target: any) {
   const times = [];
-  const numberOfRuns = 50; // Number of times to run the search for better average time measurement
+  const numberOfRuns = 1; // Number of times to run the search for better average time measurement
 
   for (let i = 0; i < numberOfRuns; i++) {
     const start = performance.now();
@@ -99,7 +105,7 @@ function binarySearchRecursive(
 
 async function runningRecursive(total: any, target: any) {
   const times = [];
-  const numberOfRuns = 50; // Number of times to run the search for better average time measurement
+  const numberOfRuns = 1; // Number of times to run the search for better average time measurement
 
   for (let i = 0; i < numberOfRuns; i++) {
     const start = performance.now();
